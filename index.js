@@ -4,6 +4,11 @@ const morgan = require('morgan');
 
 const { authRouter } = require('./routes');
 
+
+// DB setup
+const mongoose = require('./db');
+
+
 const app = express();
 
 app.use(morgan('combined'));
