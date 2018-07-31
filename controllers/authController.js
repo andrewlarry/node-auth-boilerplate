@@ -8,6 +8,7 @@ const createToken = (user) => {
   return jwt.encode({ sub: user._id, iat: timestamp }, JWT_SECRET);
 }
 
+// Attempt to create a new user and send back a token
 module.exports.signup = (req, res, next) => {
   const { email, password } = req.body;
 
@@ -20,9 +21,13 @@ module.exports.signup = (req, res, next) => {
       if (result) return res.status(422).send({ error: 'Email is in use' });
       
       const user = new User({ email, password });
-
       return user.save()
         .then(() => res.send({ token: createToken(user) }));
     })
     .catch(err => next(err));
+}
+
+// Successful signin, sent a token
+module.exports.signin = (req, res, next) => {
+  res.send({ token: createToken(req.user) });
 }
