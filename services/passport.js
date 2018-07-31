@@ -33,7 +33,10 @@ const localLogin = new LocalStrategy(loginOptions, (email, password, done) => {
   User.findOne({ email })
     .then(user => {
       if (!user) return done(null, false);
-
+      user.comparePassword(password, (err, isMatch) => {
+        if (err) return done(err);
+        (isMatch) ? done(null, user) : done(null, false);
+      });
     })
     .catch(err => done(err, false));
 });

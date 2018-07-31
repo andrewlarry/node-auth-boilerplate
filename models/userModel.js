@@ -27,4 +27,12 @@ userSchema.pre('save', function(next) {
   })
 });
 
+// Add a method to check hashed passwords
+userSchema.methods.comparePassword = function (submittedPassword, callback) {
+  bcrypt.compare(submittedPassword, this.password, (err, isMatch) => {
+    if (err) return callback(err);
+    callback(null, isMatch);
+  });
+}
+
 module.exports = mongoose.model('User', userSchema);
