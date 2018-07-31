@@ -1,7 +1,11 @@
+const { passport } = require('../services');
+
+const requireAuth = passport.authenticate('jwt', { session: false });
+
 const { authController } = require('../controllers');
 
 module.exports = app => {
-  app.get('/', (req, res) => {
+  app.get('/', requireAuth, (req, res) => {
     res.send('Hello World!');
   });
 
