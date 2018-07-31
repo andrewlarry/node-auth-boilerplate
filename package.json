@@ -1,0 +1,29 @@
+{
+  "name": "auth-server",
+  "version": "1.0.0",
+  "description": "Node.js API server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewlarry/nodejs-api.git"
+  },
+  "author": "Andrew Fuselier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrewlarry/nodejs-api/issues"
+  },
+  "homepage": "https://github.com/andrewlarry/nodejs-api#readme",
+  "dependencies": {
+    "body-parser": "1.18.3",
+    "express": "4.16.3",
+    "mongoose": "5.2.6",
+    "morgan": "1.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "1.18.3"
+  }
+}
