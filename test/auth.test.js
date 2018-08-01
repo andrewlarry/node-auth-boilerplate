@@ -58,6 +58,29 @@ describe('POST /signup', () => {
       })
       .end(done);
   });
+});
 
-  
+describe('POST /signin', () => {
+  it('should return a token when a valid email and password combo is sent', (done) => {
+    request(app)
+      .post('/signin')
+      .send(users[0])
+      .expect(200)
+      .expect(res => {
+        expect(res.body.token).toBeTruthy();
+      })
+      .end(done);
+  });
+
+  it('should return an error if user not found', (done) => {
+    const user = {
+      email: 'user3@test.com',
+      password: 'password'
+    }
+    request(app)
+      .post('/signin')
+      .send(JSON.stringify(user))
+      .expect(401)
+      .end(done);
+  });
 });
