@@ -1,25 +1,34 @@
 const { User } = require('../models');
 const jwt = require('jwt-simple');
 
-const { JWT_SECRET } = require('../config');
-
 const createToken = (user) => {
-  const timestamp = new Date().getTime();
-  return jwt.encode({ sub: user._id, iat: timestamp }, JWT_SECRET);
+  // The iat and exp JWT claims must be stored in seconds
+  const timestamp = new Date().getTime() / 1000;
+
+  // Expire the JWT in 24 hours using the exp tag
+  return jwt.encode({ 
+      sub: user._id, 
+      iat: timestamp, 
+      exp: timestamp + 86400
+    }, process.env.JWT_SECRET
+  );
 }
 
 // Attempt to create a new user and send back a token
 module.exports.signup = (req, res, next) => {
   const { email, password } = req.body;
 
+  // Client didn't send an email and password, return error
   if (!email || !password) {
-    return res.send({ error: 'Email and password must be provided'})
+    return res.status(422).send({ error: 'Email and password must be provided'});
   }
   
   User.findOne({ email })
     .then(result => {
+      // Email is already present in database
       if (result) return res.status(422).send({ error: 'Email is in use' });
       
+      // Create new user with email and password, return token
       const user = new User({ email, password });
       return user.save()
         .then(() => res.send({ token: createToken(user) }));
@@ -27,7 +36,7 @@ module.exports.signup = (req, res, next) => {
     .catch(err => next(err));
 }
 
-// Successful signin, sent a token
+// Successful signin, send a token
 module.exports.signin = (req, res, next) => {
   res.send({ token: createToken(req.user) });
 }
