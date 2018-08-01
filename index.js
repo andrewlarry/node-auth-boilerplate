@@ -20,3 +20,6 @@ authRouter(app);
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server running on port: ${port}`));
 
+
+// Export app for testing
+module.exports = app;

@@ -13,7 +13,7 @@ const { JWT_SECRET } = require('../config');
 // Set up options for JWT Strategy
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-  secretOrKey: JWT_SECRET
+  secretOrKey: process.env.JWT_SECRET
 };
 
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
