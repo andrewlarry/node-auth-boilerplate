@@ -37,6 +37,6 @@ module.exports.signup = (req, res, next) => {
 }
 
 // Successful signin, send a token
-module.exports.signin = (req, res, next) => {
+module.exports.signin = (req, res) => {
   res.send({ token: createToken(req.user) });
 }
