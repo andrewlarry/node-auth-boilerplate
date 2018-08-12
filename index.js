@@ -6,12 +6,16 @@ const { authRouter } = require('./routes');
 
 
 // DB setup
-const mongoose = require('./db');
+require('./db');
 
 
 const app = express();
 
-app.use(morgan('combined'));
+if (process.env.NODE_ENV === 'dev') {
+  // Console logging with morgan
+  app.use(morgan('combined'));
+}
+
 app.use(bodyParser.json({ type: '*/*' }));
 
 // Setup routes
